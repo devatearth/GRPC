@@ -1,0 +1,16 @@
+syntax = "proto3";
+package common;
+option java_multiple_files = true;
+option java_package = "com.vinsguru.models";
+
+message Car {
+  string brand = 1;
+  string name = 2;
+  BodyStyle body_style =3;
+}
+
+enum BodyStyle {
+  SEDAN = 0;
+  COUPE = 1;
+  SUV = 2;
+}

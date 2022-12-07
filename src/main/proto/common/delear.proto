@@ -1,0 +1,9 @@
+syntax = "proto3";
+package common;
+import "common/car.proto";
+option java_multiple_files = true;
+option java_package = "com.vinsguru.models";
+
+message Dealer {
+  map<int32,Car> model = 1;
+}

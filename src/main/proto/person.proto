@@ -1,0 +1,22 @@
+syntax = "proto3";
+import "common/car.proto";
+import "google/protobuf/wrappers.proto";
+option java_multiple_files = true;
+option java_package = "com.vinsguru.models";
+
+
+message Address {
+  int32 postBox = 1;
+  string street = 2;
+}
+
+
+message Person{
+  string name = 1;
+  google.protobuf.Int32Value age = 2;
+  Address address = 3;
+  repeated common.Car car =4;
+}
+
+
+
