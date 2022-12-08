@@ -2,6 +2,7 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import com.vinsguru.models.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -42,5 +43,17 @@ public class GRPCClientTest {
         this.bankServiceStub.withdraw(withdrawRequest,new WithdrawResponseObserver());
         System.out.println("Non Blocking call made to the server");
         Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void cashStreamingTest() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        StreamObserver<DepositRequest> streamObserver = this.bankServiceStub.cashDeposit(new BalanceStreamObserver(latch));
+        for (int i=0;i<10;i++){
+            DepositRequest depositRequest = DepositRequest.newBuilder().setAccountNumber(8).setAmount(10).build();
+            streamObserver.onNext(depositRequest);
+        }
+        streamObserver.onCompleted();
+        latch.await();
     }
 }
