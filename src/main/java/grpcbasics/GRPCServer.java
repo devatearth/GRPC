@@ -7,7 +7,11 @@ import java.io.IOException;
 
 public class GRPCServer {
     public static void main(String[] args) throws IOException, InterruptedException {
-        Server server = ServerBuilder.forPort(6565).addService(new BankService()).build();
+        Server server = ServerBuilder
+                .forPort(6565)
+                .addService(new BankService())
+                .addService(new TransferService())
+                .build();
         server.start();
         System.out.println("Server Started");
         server.awaitTermination();
